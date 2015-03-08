@@ -1,17 +1,19 @@
 class InterviewsController < ApplicationController
   before_action :authenticate_user_from_token!
   
+  
   def create
+  #  setup_date = Interview.interview_date(params[:interview_time])
     @listing = set_listing
     @user = set_user
     @interview = @user.interviews.new(:listing_id => params[:lid],
                                       :position_title => @listing.job_title,
-                                      :follow_up_email => params[:interview][:follow_up_email],
-                                      :interview_time => params[:interview][:interview_time],
-                                      :interviewtype => params[:interview][:interviewtype],
-                                      :notes => params[:interview][:notes],
-                                      :interviewed => params[:interview][:interviewed],
-                                      :status => params[:interview][:status])
+                                      :follow_up_email => params[:interviews][:follow_up_email],
+  #                                    :interview_time => setup_date(params[:interviews][:interview_time]),
+                                      :interviewtype => params[:interviews][:interviewtype],
+                                      :notes => params[:interviews][:notes],
+                                      :interviewed => params[:interviews][:interviewed],
+                                      :status => params[:interviews][:status])
     if @interview.save
       render json: { :interview => @interview }, status: :ok
     else
